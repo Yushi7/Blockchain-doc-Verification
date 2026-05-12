@@ -1,12 +1,9 @@
-"""
-main.py — CLI interface for the Blockchain Document Verification System
-"""
+# main.py — CLI interface for the Blockchain Document Verification System
 
 import os
 from blockchain import Blockchain
 from verify import register_document, verify_document, simulate_tampering
 
-# Global chain instance (in a real app, persist this to disk/DB)
 chain = Blockchain()
 
 
@@ -29,7 +26,7 @@ def menu():
             filepath = input("File path: ").strip()
             owner    = input("Owner name: ").strip()
             if not os.path.exists(filepath):
-                print(f"[✘] File '{filepath}' does not exist.")
+                print(f" File '{filepath}' does not exist.")
             else:
                 register_document(chain, doc_id, filepath, owner)
 
@@ -38,16 +35,16 @@ def menu():
             filepath = input("File path: ").strip()
             result   = verify_document(chain, doc_id, filepath)
             if result:
-                print("✔ Document is AUTHENTIC.")
+                print(" Document is AUTHENTIC.")
             else:
-                print("✘ Document verification FAILED.")
+                print(" Document verification FAILED.")
 
         elif choice == "3":
             chain.print_chain()
 
         elif choice == "4":
             valid = chain.is_valid()
-            print(f"\nChain integrity: {'✔ VALID' if valid else '✘ INVALID — CHAIN HAS BEEN TAMPERED'}")
+            print(f"\nChain integrity: {' VALID' if valid else ' INVALID — CHAIN HAS BEEN TAMPERED'}")
 
         elif choice == "5":
             print("\n[Demo] Simulating tampering on Block #1 ...")
