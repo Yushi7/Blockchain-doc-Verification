@@ -1,16 +1,11 @@
-"""
-test_blockchain.py — Unit tests for blockchain and verification logic
-Run: python -m pytest test_blockchain.py -v
-"""
+# test_blockchain.py — Unit tests for blockchain and verification logic
+# Run: python -m pytest test_blockchain.py -v
 
 import pytest
 import time
 from blockchain import Blockchain, Block
 from document import hash_text, build_document_record
 from verify import simulate_tampering
-
-
-# ── Block Tests ───────────────────────────────────────────────────────────────
 
 class TestBlock:
     def test_hash_is_computed_on_init(self):
@@ -30,8 +25,6 @@ class TestBlock:
         d = block.to_dict()
         assert all(k in d for k in ["index", "timestamp", "data", "prev_hash", "nonce", "hash"])
 
-
-# ── Blockchain Tests ──────────────────────────────────────────────────────────
 
 class TestBlockchain:
     def setup_method(self):
@@ -82,9 +75,6 @@ class TestBlockchain:
     def test_find_block_returns_none_for_missing(self):
         result = self.chain.find_block_by_doc_id("NONEXISTENT")
         assert result is None
-
-
-# ── Document Record Tests ─────────────────────────────────────────────────────
 
 class TestDocument:
     def test_hash_text_returns_64_char_hex(self):
