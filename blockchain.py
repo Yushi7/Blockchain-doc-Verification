@@ -1,6 +1,4 @@
 """
-blockchain.py — Core blockchain implementation
-================================================
 Implements Block and Blockchain classes with:
   - SHA-256 hashing
   - Proof-of-Work consensus
@@ -17,20 +15,19 @@ class Block:
     """
     A single block in the chain.
 
-    Attributes
-    ----------
-    index       : Position in the chain (0 = genesis)
-    timestamp   : Unix time of creation
-    data        : Document metadata stored in this block
-    prev_hash   : Hash of the previous block (links the chain)
-    nonce       : Proof-of-work counter
-    hash        : SHA-256 hash of this block's contents
+    Attributes:
+    index       - Position in the chain (0 = genesis)
+    timestamp   - Unix time of creation
+    data        - Document metadata stored in this block
+    prev_hash   - Hash of the previous block (links the chain)
+    nonce       - Proof-of-work counter
+    hash        - SHA-256 hash of this block's contents
     """
 
     def __init__(self, index: int, data: dict, prev_hash: str = "0"):
         self.index      = index
         self.timestamp  = time.time()
-        self.data       = data          # e.g. {"doc_id": ..., "doc_hash": ...}
+        self.data       = data          
         self.prev_hash  = prev_hash
         self.nonce      = 0
         self.hash       = self.compute_hash()
@@ -68,28 +65,19 @@ class Block:
 
 
 class Blockchain:
-    """
-    A tamper-evident chain of blocks secured by SHA-256 and proof-of-work.
+   # A tamper-evident chain of blocks secured by SHA-256 and proof-of-work.
+   # difficulty - Number of leading zeros required in a valid block hash (Pow)
 
-    Parameters
-    ----------
-    difficulty : Number of leading zeros required in a valid block hash (PoW)
-    """
-
-    DIFFICULTY = 3  # leading zeros required (adjustable)
+    DIFFICULTY = 3  
 
     def __init__(self):
         self.chain: list[Block] = []
         self._create_genesis_block()
 
-    # ── Genesis ────────────────────────────────────────────────────────────────
-
     def _create_genesis_block(self):
         genesis = Block(index=0, data={"info": "Genesis Block"}, prev_hash="0")
         genesis.hash = self._proof_of_work(genesis)
         self.chain.append(genesis)
-
-    # ── Proof of Work ──────────────────────────────────────────────────────────
 
     def _proof_of_work(self, block: Block) -> str:
         """
@@ -103,13 +91,7 @@ class Blockchain:
             computed = block.compute_hash()
         return computed
 
-    # ── Add Block ──────────────────────────────────────────────────────────────
-
     def add_block(self, data: dict) -> Block:
-        """
-        Mine a new block with the given data and append it to the chain.
-        Returns the newly added block.
-        """
         prev_block = self.chain[-1]
         new_block  = Block(
             index     = len(self.chain),
@@ -120,17 +102,10 @@ class Blockchain:
         self.chain.append(new_block)
         return new_block
 
-    # ── Validation ────────────────────────────────────────────────────────────
-
     def is_valid(self) -> bool:
-        """
-        Validate the entire chain:
-          1. Each block's stored hash matches its recomputed hash.
-          2. Each block's prev_hash matches the actual hash of the previous block.
-          3. Every hash satisfies the proof-of-work difficulty.
-
-        Returns True if the chain is intact, False if tampered.
-        """
+        # Validate the entire chain
+        # Returns True if the chain is intact, False if tampered
+      
         for i in range(1, len(self.chain)):
             curr = self.chain[i]
             prev = self.chain[i - 1]
@@ -149,16 +124,12 @@ class Blockchain:
 
         return True
 
-    # ── Lookup ────────────────────────────────────────────────────────────────
-
     def find_block_by_doc_id(self, doc_id: str):
         """Return the block containing the given document ID, or None."""
         for block in self.chain[1:]:   # skip genesis
             if block.data.get("doc_id") == doc_id:
                 return block
         return None
-
-    # ── Display ───────────────────────────────────────────────────────────────
 
     def print_chain(self):
         for block in self.chain:
