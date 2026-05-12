@@ -89,21 +89,21 @@ python -m pytest test_blockchain.py -v
 
 [1] Genesis block created. Chain length: 1
 
-[2] Registering documents on the blockchain ...
-  ✔ DOC-001 registered → Block #1  |  Hash: 000a3f9b1c2e47...
-  ✔ DOC-002 registered → Block #2  |  Hash: 0007d8f2a1b34c...
-  ✔ DOC-003 registered → Block #3  |  Hash: 000e2a7c9f1d58...
+[2] Registering documents on the blockchain 
+   DOC-001 registered → Block #1  |  Hash: 000a3f9b1c2e47...
+   DOC-002 registered → Block #2  |  Hash: 0007d8f2a1b34c...
+   DOC-003 registered → Block #3  |  Hash: 000e2a7c9f1d58...
 
-[4] Chain integrity check: ✔ VALID
+[4] Chain integrity check: VALID
 
-[5] Verifying DOC-001 (unmodified) ...
-  Result: ✔ AUTHENTIC
+[5] Verifying DOC-001 (unmodified) 
+  Result: AUTHENTIC
 
-[6] Simulating document tampering on Block #1 ...
+[6] Simulating document tampering on Block #1 
 [!] Block #1 data has been tampered with.
 
 [7] Re-checking chain integrity after tampering:
-  Chain valid: ✘ INVALID — TAMPERING DETECTED
+  Chain valid: INVALID — TAMPERING DETECTED
 ```
 
 ---
@@ -142,8 +142,3 @@ Before a block can be added, the system increments a `nonce` until the block's h
 
 ---
 
-## Author
-
-**Ayushi Nishita Ekka**  
-BIT Mesra — CSE, 2023–2027  
-[GitHub](https://github.com/Yushi7) | [LinkedIn](https://www.linkedin.com/in/ayushi-nishita-ekka-81340b2a6/)
